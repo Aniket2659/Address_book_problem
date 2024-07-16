@@ -10,6 +10,7 @@ class AddressBook:
         print("5. Enter the name of an address book")
         print("6. Display address books")
         print("7. Search for contacts by city")
+        print("8. Display all states in list")
         choice = int(input("Enter your choice: "))
         return choice
 
@@ -55,14 +56,14 @@ class AddressBook:
         for contact in self.contacts:
             if full_name1 == f"{contact['first_name']} {contact['last_name']}":
                 self.contacts.remove(contact)
-                print("contact deleted successfully")
+                print("Contact deleted successfully")
                 return
         else:
-            print("there is no existing contact")
+            print("There is no existing contact")
 
     def display_contacts(self):
         if not self.contacts:
-            print("no contacts to display")
+            print("No contacts to display")
         else:
             for contact in self.contacts:
                 print(contact)
@@ -78,7 +79,7 @@ class AddressBook:
                         self.edit_contact(contact)
                         break
                 else:
-                    print('there is no existing contact')
+                    print('There is no existing contact')
             case 3:
                 self.del_contact()
             case 4:
@@ -89,9 +90,10 @@ class AddressBook:
                 m_address_book.display_address_book()
             case 7:
                 m_address_book.search_contacts_by_city()
-    
+            case 8:
+                m_address_book.display_all_states()
             case _:
-                print("invalid choice plz try again")
+                print("Invalid choice, please try again")
 
 class MultipleAddressBook(AddressBook):
     def __init__(self):
@@ -134,10 +136,22 @@ class MultipleAddressBook(AddressBook):
         
         if results:
             for contact in results:
-                print(f"person name: {contact}")
+                print(f"Person name: {contact}")
         else:
             print(f"No contacts found in city '{search_city}'")
 
+    def display_all_states(self):
+        states = []
+        for contacts in self.address_books.values():
+            for contact in contacts:
+                states.append(contact['state'])
+        
+        if states:
+            
+            for state in states:
+                print(state)
+        else:
+            print("No states to display")
 
 if __name__ == "__main__":
     m_address_book = MultipleAddressBook()
