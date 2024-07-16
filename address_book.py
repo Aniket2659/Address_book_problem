@@ -13,6 +13,8 @@ class AddressBook:
         print("7. Search for contacts by city")
         print("8. Display all states in list")
         print("9. Display number of contacts ")
+        print("10. Display sort contact based on person name ")
+        print("11. Display sort contact based on city name ")
         choice = int(input("Enter your choice: "))
         return choice
 
@@ -67,9 +69,26 @@ class AddressBook:
         if not self.contacts:
             print("No contacts to display")
         else:
+            for contact in self.contacts:
+                print(contact)
+            
+    def sort_contacts_byname(self):
+        if not self.contacts:
+            print("No contacts to display")
+        else:
             sorted_contacts = sorted(self.contacts, key=lambda x: x['first_name'])
             for contact in sorted_contacts:
                 print(contact)
+    
+    def sort_contacts_bycity(self):
+        if not self.contacts:
+            print("No contacts to display")
+        else:
+            sorted_contacts = sorted(self.contacts, key=lambda x: x['first_name'])
+            for contact in sorted_contacts:
+                print(contact)
+
+
 
     def selection(self, choice):
         match choice:
@@ -97,6 +116,10 @@ class AddressBook:
                 m_address_book.display_all_states()
             case 9:
                 print(m_address_book.count_by_state())
+            case 10:
+                m_address_book.sort_contacts_byname()
+            case 11:
+                m_address_book.sort_contacts_bycity()
             case _:
                 print("Invalid choice, please try again")
 
