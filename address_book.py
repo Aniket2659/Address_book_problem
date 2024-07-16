@@ -54,14 +54,14 @@ class AddressBook:
         for contact in self.contacts:
             if full_name1 == f"{contact['first_name']} {contact['last_name']}":
                 self.contacts.remove(contact)
-                print("Contact deleted successfully.")
+                print("contact deleted successfully.")
                 return
         else:
-            print("There is no existing contact.")
+            print("there is no existing contact")
 
     def display_contacts(self):
         if not self.contacts:
-            print("No contacts to display.")
+            print("no contacts to display")
         else:
             for contact in self.contacts:
                 print(contact)
@@ -77,7 +77,7 @@ class AddressBook:
                         self.edit_contact(contact)
                         break
                 else:
-                    print('There is no existing contact')
+                    print('there is no existing contact')
             case 3:
                 self.del_contact()
             case 4:
@@ -87,7 +87,7 @@ class AddressBook:
             case 6:
                 m_address_book.display_address_book()
             case _:
-                print("Invalid choice, please try again.")
+                print("invalid choice please try again")
 
 
 class MultipleAddressBook(AddressBook):
@@ -99,9 +99,9 @@ class MultipleAddressBook(AddressBook):
         name_address_book = input('Enter the name of address book to create: ')
         if name_address_book not in self.address_books:
             self.address_books[name_address_book] = []
-            print(f"Address book '{name_address_book}' created successfully.")
+            print(f"Address book '{name_address_book}' created successfully")
         else:
-            print(f"Address book '{name_address_book}' already exists.")
+            print(f"Address book '{name_address_book}' already exists")
 
     def display_address_book(self):
         if not self.address_books:
@@ -119,7 +119,7 @@ class MultipleAddressBook(AddressBook):
             self.create_contact()
             self.address_books[name_address_book] = self.contacts
         else:
-            print(f"Address book '{name_address_book}' does not exist.")
+            print(f"Address book '{name_address_book}' does not exist")
 
 
 if __name__ == "__main__":
