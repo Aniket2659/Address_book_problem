@@ -4,18 +4,19 @@ class AddressBook:
 
     def menu(self):
         print("1. Add the contacts in address book")
+        print("2. Edit a contact in the address book")
         choice = int(input("Enter your choice: "))
         return choice
 
     def create_contact(self):
-        first_name = input('Enter your first name: ')
-        last_name = input('Enter your last name: ')
-        address = input('Enter your address here: ')
-        city = input('Enter your city name: ')
-        state = input('Enter your state name: ')
-        zip_code = input('Enter your zip code: ')
-        phone_number = input('Enter your phone number: ')
-        email = input('Enter your email address: ')
+        first_name = input('enter your first name: ')
+        last_name = input('enter your last name: ')
+        address = input('enter your address here: ')
+        city = input('enter your city name: ')
+        state = input('enter your state name: ')
+        zip_code = int(input('enter your zip code: '))
+        phone_number = int(input('enter your phone number: '))
+        email = input('enter your email address: ')
         
         contact = {
             'first_name': first_name,
@@ -28,15 +29,39 @@ class AddressBook:
             'email': email
         }
         self.contacts.append(contact)
+    def edit_contact(self,contact):
+        for contact in self.contacts:
+            contact['first_name'] = input('enter new first name ')
+            contact['last_name'] = input('enter new last name ')
+            contact['address'] = input('enter new address ')
+            contact['city'] = input('enter new city name')
+            contact['state'] = input('enter new state name ')
+            contact['zip_code'] = int(input('enter new zip code '))
+            contact['phone_number'] = int(input('enter new phone number '))
+            contact['email'] = input('enter new email address')
 
     def selection(self, choice):
         match choice:
             case 1:
                 self.create_contact()
+            case 2:
+                full_name = input('Enter the full name: ')
+                for contact in self.contacts:
+                    if full_name == f"{contact['first_name']} {contact['last_name']}":
+                        self.edit_contact(contact)
+                        break
+                else:
+                    print('there is no existing contact')
             case _:
                 print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
     address_book = AddressBook()
-    user_choice = address_book.menu()
-    address_book.selection(user_choice)
+    while True:
+        user_choice = address_book.menu()
+        address_book.selection(user_choice)
+        exit=input('do you want to continue(yes/no)')
+        if exit=='no':
+            break
+    
+
