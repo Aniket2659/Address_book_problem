@@ -48,6 +48,13 @@ class AddressBook:
         else:
             print("There is no existing contact.")
 
+    def display_contacts(self):
+        if not self.contacts:
+            print("no contacts to display.")
+        else:
+            print(self.contacts)
+
+
 
     def selection(self, choice):
         match choice:
@@ -71,6 +78,7 @@ if __name__ == "__main__":
     while True:
         user_choice = address_book.menu()
         address_book.selection(user_choice)
+        address_book.display_contacts()
         exit=input('do you want to continue(yes/no)')
         if exit=='no':
             break
