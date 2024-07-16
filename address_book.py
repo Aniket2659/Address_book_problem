@@ -3,12 +3,13 @@ class AddressBook:
         self.contacts = []
 
     def menu(self):
-        print("1. Add the contacts in address book")
+        print("1. Add contacts to the address book")
         print("2. Edit a contact in the address book")
-        print("3. Delete the existing contact")
-        print("4. Display the contact")
-        print("5. Enter name of address book")
-        print("6. Display address book")
+        print("3. Delete an existing contact")
+        print("4. Display contacts")
+        print("5. Enter the name of an address book")
+        print("6. Display address books")
+        print("7. Search for contacts by city")
         choice = int(input("Enter your choice: "))
         return choice
 
@@ -17,7 +18,7 @@ class AddressBook:
         last_name = input('Enter your last name: ')
         for contact in self.contacts:
             if contact['first_name'] == first_name and contact['last_name'] == last_name:
-                print('this contact already exists')
+                print('This contact already exists')
                 return
         
         address = input('Enter your address here: ')
@@ -54,7 +55,7 @@ class AddressBook:
         for contact in self.contacts:
             if full_name1 == f"{contact['first_name']} {contact['last_name']}":
                 self.contacts.remove(contact)
-                print("contact deleted successfully.")
+                print("contact deleted successfully")
                 return
         else:
             print("there is no existing contact")
@@ -86,9 +87,11 @@ class AddressBook:
                 m_address_book.create_address_book()
             case 6:
                 m_address_book.display_address_book()
+            case 7:
+                m_address_book.search_contacts_by_city()
+    
             case _:
-                print("invalid choice please try again")
-
+                print("invalid choice plz try again")
 
 class MultipleAddressBook(AddressBook):
     def __init__(self):
@@ -96,7 +99,7 @@ class MultipleAddressBook(AddressBook):
         self.address_books = {}
 
     def create_address_book(self):
-        name_address_book = input('Enter the name of address book to create: ')
+        name_address_book = input('Enter the name of the address book to create: ')
         if name_address_book not in self.address_books:
             self.address_books[name_address_book] = []
             print(f"Address book '{name_address_book}' created successfully")
@@ -105,7 +108,7 @@ class MultipleAddressBook(AddressBook):
 
     def display_address_book(self):
         if not self.address_books:
-            print("No address books to display.")
+            print("No address books to display")
         else:
             for name, contacts in self.address_books.items():
                 print(f"Address Book: {name}")
@@ -120,6 +123,20 @@ class MultipleAddressBook(AddressBook):
             self.address_books[name_address_book] = self.contacts
         else:
             print(f"Address book '{name_address_book}' does not exist")
+
+    def search_contacts_by_city(self):
+        search_city = input('Enter the city name to search for contacts: ')
+        results = []
+        for book_name, contacts in self.address_books.items():
+            for contact in contacts:
+                if contact['city'].lower() == search_city.lower():
+                    results.append((contact['first_name']))
+        
+        if results:
+            for contact in results:
+                print(f"person name: {contact}")
+        else:
+            print(f"No contacts found in city '{search_city}'")
 
 
 if __name__ == "__main__":
