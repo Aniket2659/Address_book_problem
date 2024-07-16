@@ -5,6 +5,7 @@ class AddressBook:
     def menu(self):
         print("1. Add the contacts in address book")
         print("2. Edit a contact in the address book")
+        print("3. Delete the existing contact")
         choice = int(input("Enter your choice: "))
         return choice
 
@@ -39,6 +40,14 @@ class AddressBook:
             contact['zip_code'] = int(input('enter new zip code '))
             contact['phone_number'] = int(input('enter new phone number '))
             contact['email'] = input('enter new email address')
+    def del_contact(self):
+        full_name1 = input('enter the full name of the contact to delete: ')
+        for contact in self.contacts:
+            if full_name1 == f"{contact['first_name']} {contact['last_name']}":
+                self.contacts.remove(contact)
+        else:
+            print("There is no existing contact.")
+
 
     def selection(self, choice):
         match choice:
@@ -52,8 +61,10 @@ class AddressBook:
                         break
                 else:
                     print('there is no existing contact')
+            case 3:
+                self.del_contact()
             case _:
-                print("Invalid choice. Please try again.")
+                print("invalid choice please try again.")
 
 if __name__ == "__main__":
     address_book = AddressBook()
