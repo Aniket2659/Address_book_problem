@@ -3,6 +3,7 @@ class AddressBook:
         self.contacts = []
 
     def menu(self):
+        print('Enter first 5 th option to create address book ')
         print("1. Add contacts to the address book")
         print("2. Edit a contact in the address book")
         print("3. Delete an existing contact")
@@ -11,6 +12,7 @@ class AddressBook:
         print("6. Display address books")
         print("7. Search for contacts by city")
         print("8. Display all states in list")
+        print("9. Display number of contacts ")
         choice = int(input("Enter your choice: "))
         return choice
 
@@ -92,8 +94,11 @@ class AddressBook:
                 m_address_book.search_contacts_by_city()
             case 8:
                 m_address_book.display_all_states()
+            case 9:
+                print(m_address_book.count_by_state())
             case _:
                 print("Invalid choice, please try again")
+
 
 class MultipleAddressBook(AddressBook):
     def __init__(self):
@@ -152,6 +157,16 @@ class MultipleAddressBook(AddressBook):
                 print(state)
         else:
             print("No states to display")
+    
+    def count_by_state(self):
+        count_states = []
+        for contacts in self.address_books.values():
+            for contact in contacts:
+                count_states.append(contact['state'])
+        return len(count_states)
+
+        
+        
 
 if __name__ == "__main__":
     m_address_book = MultipleAddressBook()
