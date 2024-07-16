@@ -67,7 +67,8 @@ class AddressBook:
         if not self.contacts:
             print("No contacts to display")
         else:
-            for contact in self.contacts:
+            sorted_contacts = sorted(self.contacts, key=lambda x: x['first_name'])
+            for contact in sorted_contacts:
                 print(contact)
 
     def selection(self, choice):
@@ -172,7 +173,7 @@ if __name__ == "__main__":
     m_address_book = MultipleAddressBook()
     while True:
         user_choice = m_address_book.menu()
-        if user_choice in [1, 2, 3, 4]:
+        if user_choice in [1]:
             m_address_book.add_contact_to_address_book()
         else:
             m_address_book.selection(user_choice)
