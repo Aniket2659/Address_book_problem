@@ -1,3 +1,5 @@
+import csv
+
 class AddressBook:
     def __init__(self):
         self.contacts = []
@@ -86,7 +88,7 @@ class AddressBook:
         if not self.contacts:
             print("No contacts to display")
         else:
-            sorted_contacts = sorted(self.contacts, key=lambda x: x['first_name'])
+            sorted_contacts = sorted(self.contacts, key=lambda x: x['city'])
             for contact in sorted_contacts:
                 print(contact)
 
@@ -192,28 +194,35 @@ class MultipleAddressBook(AddressBook):
                 count_states.append(contact['state'])
         return len(count_states)
 
-    def save_to_file(self, filename='address_books.txt'):
-        with open(filename, 'w') as file:
+    def save_to_file(self, filename='address_books.csv'):
+        with open(filename, 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(["Address Book", "First Name", "Last Name", "Address", "City", "State", "Zip Code", "Phone Number", "Email"])
             for book_name, contacts in self.address_books.items():
-                file.write(f"Address Book: {book_name}\n")
                 for contact in contacts:
-                    contact_info = ";".join([f"{k}:{v}" for k, v in contact.items()])
-                    file.write(contact_info + "\n")
+                    writer.writerow([book_name, contact['first_name'], contact['last_name'], contact['address'], contact['city'], contact['state'], contact['zip_code'], contact['phone_number'], contact['email']])
         print(f"Address books saved to {filename}")
 
-    def load_from_file(self, filename='address_books.txt'):
+    def load_from_file(self, filename='address_books.csv'):
         try:
             with open(filename, 'r') as file:
+                reader = csv.DictReader(file)
                 self.address_books = {}
-                current_book = None
-                for line in file:
-                    line = line.strip()
-                    if line.startswith("Address Book:"):
-                        current_book = line[len("Address Book: "):]
-                        self.address_books[current_book] = []
-                    else:
-                        contact = dict(item.split(":") for item in line.split(";"))
-                        self.address_books[current_book].append(contact)
+                for row in reader:
+                    book_name = row['Address Book']
+                    if book_name not in self.address_books:
+                        self.address_books[book_name] = []
+                    contact = {
+                        'first_name': row['First Name'],
+                        'last_name': row['Last Name'],
+                        'address': row['Address'],
+                        'city': row['City'],
+                        'state': row['State'],
+                        'zip_code': row['Zip Code'],
+                        'phone_number': row['Phone Number'],
+                        'email': row['Email']
+                    }
+                    self.address_books[book_name].append(contact)
             print(f"Address books loaded from {filename}")
         except FileNotFoundError:
             print(f"No such file: {filename}")
