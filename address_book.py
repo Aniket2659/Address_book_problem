@@ -15,6 +15,8 @@ class AddressBook:
         print("9. Display number of contacts ")
         print("10. Display sort contact based on person name ")
         print("11. Display sort contact based on city name ")
+        print("12. Save address books to file")
+        print("13. Load address books from file")
         choice = int(input("Enter your choice: "))
         return choice
 
@@ -88,8 +90,6 @@ class AddressBook:
             for contact in sorted_contacts:
                 print(contact)
 
-
-
     def selection(self, choice):
         match choice:
             case 1:
@@ -120,6 +120,10 @@ class AddressBook:
                 m_address_book.sort_contacts_byname()
             case 11:
                 m_address_book.sort_contacts_bycity()
+            case 12:
+                m_address_book.save_to_file()
+            case 13:
+                m_address_book.load_from_file()
             case _:
                 print("Invalid choice, please try again")
 
@@ -176,7 +180,6 @@ class MultipleAddressBook(AddressBook):
                 states.append(contact['state'])
         
         if states:
-            
             for state in states:
                 print(state)
         else:
@@ -189,8 +192,31 @@ class MultipleAddressBook(AddressBook):
                 count_states.append(contact['state'])
         return len(count_states)
 
-        
-        
+    def save_to_file(self, filename='address_books.txt'):
+        with open(filename, 'w') as file:
+            for book_name, contacts in self.address_books.items():
+                file.write(f"Address Book: {book_name}\n")
+                for contact in contacts:
+                    contact_info = ";".join([f"{k}:{v}" for k, v in contact.items()])
+                    file.write(contact_info + "\n")
+        print(f"Address books saved to {filename}")
+
+    def load_from_file(self, filename='address_books.txt'):
+        try:
+            with open(filename, 'r') as file:
+                self.address_books = {}
+                current_book = None
+                for line in file:
+                    line = line.strip()
+                    if line.startswith("Address Book:"):
+                        current_book = line[len("Address Book: "):]
+                        self.address_books[current_book] = []
+                    else:
+                        contact = dict(item.split(":") for item in line.split(";"))
+                        self.address_books[current_book].append(contact)
+            print(f"Address books loaded from {filename}")
+        except FileNotFoundError:
+            print(f"No such file: {filename}")
 
 if __name__ == "__main__":
     m_address_book = MultipleAddressBook()
