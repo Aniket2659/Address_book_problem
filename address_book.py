@@ -1,4 +1,4 @@
-import csv
+import json
 
 class AddressBook:
     def __init__(self):
@@ -194,35 +194,15 @@ class MultipleAddressBook(AddressBook):
                 count_states.append(contact['state'])
         return len(count_states)
 
-    def save_to_file(self, filename='address_books.csv'):
-        with open(filename, 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(["Address Book", "First Name", "Last Name", "Address", "City", "State", "Zip Code", "Phone Number", "Email"])
-            for book_name, contacts in self.address_books.items():
-                for contact in contacts:
-                    writer.writerow([book_name, contact['first_name'], contact['last_name'], contact['address'], contact['city'], contact['state'], contact['zip_code'], contact['phone_number'], contact['email']])
+    def save_to_file(self, filename='address_books.json'):
+        with open(filename, 'w') as file:
+            json.dump(self.address_books, file, indent=4)
         print(f"Address books saved to {filename}")
 
-    def load_from_file(self, filename='address_books.csv'):
+    def load_from_file(self, filename='address_books.json'):
         try:
             with open(filename, 'r') as file:
-                reader = csv.DictReader(file)
-                self.address_books = {}
-                for row in reader:
-                    book_name = row['Address Book']
-                    if book_name not in self.address_books:
-                        self.address_books[book_name] = []
-                    contact = {
-                        'first_name': row['First Name'],
-                        'last_name': row['Last Name'],
-                        'address': row['Address'],
-                        'city': row['City'],
-                        'state': row['State'],
-                        'zip_code': row['Zip Code'],
-                        'phone_number': row['Phone Number'],
-                        'email': row['Email']
-                    }
-                    self.address_books[book_name].append(contact)
+                self.address_books = json.load(file)
             print(f"Address books loaded from {filename}")
         except FileNotFoundError:
             print(f"No such file: {filename}")
